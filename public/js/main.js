@@ -81,7 +81,10 @@
     img.decoding = 'async';
     img.addEventListener('load', function () { img.classList.add('ready'); });
     if (img.complete && img.naturalWidth) img.classList.add('ready');
-    btn.appendChild(img);
+    var thumb = document.createElement('span');
+    thumb.className = 'thumb';
+    thumb.appendChild(img);
+    btn.appendChild(thumb);
     btn.addEventListener('click', function () { openViewer(i); });
     card.appendChild(btn);
     frag.appendChild(card);
@@ -98,13 +101,14 @@
   var leafImg = document.getElementById('leaf-img');
   var leafShade = document.getElementById('leaf-shade');
   var underShade = document.getElementById('under-shade');
-  var countEl = document.getElementById('count');
-  var fsBtn = document.getElementById('fs');
+  var curEl = document.getElementById('count-cur');
+  var totalEl = document.getElementById('count-total');
+  totalEl.textContent = photos.length;
+  function setCount(i) { curEl.textContent = i + 1; }
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var index = 0;
   var busy = false;
-  var enteredFs = false;
   var DURATION = 1000;
   var EASE = 'cubic-bezier(.65,.02,.3,1)';
   var mod = function (n) { return (n + photos.length) % photos.length; };
@@ -121,7 +125,7 @@
     underImg.src = url(i);
     leafImg.src = url(i);
     underImg.alt = leafImg.alt = 'Yusif və Fatmanın fotosu ' + (i + 1);
-    countEl.textContent = (i + 1) + ' / ' + photos.length;
+    setCount(i);
   }
 
   function setPerspective() {
@@ -136,7 +140,6 @@
     if (!viewer.open) viewer.showModal();
     showUi();
     warmNeighbours();
-    viewer.querySelector('#close').blur();
   }
 
   function closeViewer() {
@@ -145,8 +148,6 @@
 
   viewer.addEventListener('close', function () {
     document.body.classList.remove('lock');
-    if (enteredFs && document.fullscreenElement) document.exitFullscreen().catch(function () {});
-    enteredFs = false;
     clearTimeout(uiTimer);
   });
 
@@ -176,7 +177,7 @@
         index = target;
         underImg.src = url(index);
         leafImg.src = url(index);
-        countEl.textContent = (index + 1) + ' / ' + photos.length;
+        setCount(index);
         underImg.alt = leafImg.alt = 'Yusif və Fatmanın fotosu ' + (index + 1);
         var ready = underImg.decode ? underImg.decode().catch(function () {}) : Promise.resolve();
         return ready.then(function () {
@@ -198,7 +199,6 @@
     if (!viewer.open) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); turn(1); }
     else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); turn(-1); }
-    else if (e.key === 'f' || e.key === 'F') toggleFs();
     showUi();
   });
 
@@ -236,21 +236,6 @@
     else { clearTimeout(uiTimer); viewer.classList.add('ui-hidden'); }
   }
   viewer.addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse') showUi(); });
-
-  /* Tam ekran rejimi (brauzer dəstəkləyirsə) */
-  function toggleFs() {
-    if (!document.fullscreenEnabled) return;
-    if (document.fullscreenElement) document.exitFullscreen().catch(function () {});
-    else { enteredFs = true; document.documentElement.requestFullscreen().catch(function () { enteredFs = false; }); }
-  }
-  if (document.fullscreenEnabled) {
-    fsBtn.hidden = false;
-    fsBtn.addEventListener('click', toggleFs);
-    document.addEventListener('fullscreenchange', function () {
-      fsBtn.classList.toggle('is-fs', !!document.fullscreenElement);
-      fsBtn.setAttribute('aria-label', document.fullscreenElement ? 'Tam ekrandan çıx' : 'Tam ekran');
-    });
-  }
 
   window.addEventListener('resize', setPerspective);
 })();
