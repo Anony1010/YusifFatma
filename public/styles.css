@@ -1,0 +1,255 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  color-scheme: light;
+  --teal: #07494a;
+  --paper: #faf9f5;
+  --ink: #172a29;
+  --control: rgba(250, 249, 245, 0.92);
+  font-family: Georgia, "Times New Roman", serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--paper);
+}
+
+button {
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cover {
+  display: grid;
+  width: 100%;
+  height: 100svh;
+  min-height: 480px;
+  place-items: center;
+  overflow: hidden;
+  background: var(--teal);
+}
+
+.cover-image {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100svh;
+  object-fit: contain;
+}
+
+.photo-section {
+  min-height: 100vh;
+  padding: clamp(18px, 2.4vw, 34px) clamp(12px, 2.4vw, 36px) 56px;
+  border-top: 1px solid rgba(7, 73, 74, 0.08);
+  background: var(--paper);
+}
+
+.photo-grid {
+  columns: 3;
+  column-gap: clamp(10px, 1.4vw, 20px);
+  width: min(100%, 1440px);
+  margin-inline: auto;
+}
+
+.photo-item {
+  break-inside: avoid;
+  margin: 0 0 clamp(10px, 1.4vw, 20px);
+}
+
+.photo-item-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.photo-item-button img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #e8e7e0;
+  transition: transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.photo-item-button:hover img,
+.photo-item-button:focus-visible img {
+  transform: scale(1.018);
+}
+
+.photo-item-button:focus-visible,
+.lightbox-control:focus-visible {
+  outline: 2px solid #d9c593;
+  outline-offset: 3px;
+}
+
+.gallery-error {
+  margin: 60px auto;
+  color: #425655;
+  font: 14px/1.6 Arial, sans-serif;
+  text-align: center;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 36px 72px;
+  overflow: hidden;
+  border: 0;
+  background: rgba(5, 24, 24, 0.97);
+  color: var(--control);
+}
+
+.lightbox::backdrop {
+  background: rgba(5, 24, 24, 0.97);
+}
+
+.lightbox[open] {
+  display: grid;
+  place-items: center;
+  animation: appear 180ms ease both;
+}
+
+.lightbox-figure {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  place-items: center;
+}
+
+.lightbox-figure img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.lightbox-control {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid rgba(250, 249, 245, 0.35);
+  border-radius: 50%;
+  background: rgba(250, 249, 245, 0.07);
+  color: var(--control);
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.lightbox-control:hover {
+  border-color: rgba(250, 249, 245, 0.8);
+  background: rgba(250, 249, 245, 0.16);
+}
+
+.lightbox-close {
+  top: 20px;
+  right: 20px;
+  font: 300 27px/1 Arial, sans-serif;
+}
+
+.lightbox-prev,
+.lightbox-next {
+  top: 50%;
+  transform: translateY(-50%);
+  font: 300 34px/1 Georgia, serif;
+}
+
+.lightbox-prev {
+  left: 20px;
+}
+
+.lightbox-next {
+  right: 20px;
+}
+
+@keyframes appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 900px) {
+  .photo-grid {
+    columns: 2;
+  }
+}
+
+@media (max-width: 560px) {
+  .cover {
+    min-height: 100svh;
+  }
+
+  .photo-section {
+    padding: 10px 9px 34px;
+  }
+
+  .photo-grid {
+    column-gap: 9px;
+  }
+
+  .photo-item {
+    margin-bottom: 9px;
+  }
+
+  .lightbox {
+    padding: 34px 46px 24px;
+  }
+
+  .lightbox-control {
+    width: 38px;
+    height: 38px;
+  }
+
+  .lightbox-close {
+    top: 12px;
+    right: 12px;
+  }
+
+  .lightbox-prev {
+    left: 8px;
+  }
+
+  .lightbox-next {
+    right: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

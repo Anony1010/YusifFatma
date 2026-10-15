@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="az">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07494a" />
+    <meta name="description" content="Yusif və Fatma — foto kataloqu." />
+    <meta property="og:title" content="Yusif &amp; Fatma" />
+    <meta property="og:description" content="Yusif və Fatma — foto kataloqu." />
+    <meta property="og:image" content="/images/cover.png" />
+    <title>Yusif &amp; Fatma</title>
+    <link rel="icon" type="image/svg+xml" href="/mark.svg" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <audio id="background-music" src="/audio/incebellim.mp3" preload="none" loop hidden aria-hidden="true"></audio>
+    <main>
+      <section class="cover" aria-label="Yusif və Fatma">
+        <img
+          class="cover-image"
+          src="/images/cover.png"
+          alt="Yusif və Fatma — Foto Kataloqu"
+          width="1024"
+          height="1536"
+          fetchpriority="high"
+        />
+      </section>
+
+      <section class="photo-section" id="photos" aria-label="Foto kataloqu">
+        <div class="photo-grid" id="photo-grid" aria-busy="true"></div>
+        <p class="gallery-error" id="gallery-error" role="alert" hidden>Fotolar yüklənmədi.</p>
+      </section>
+    </main>
+
+    <dialog class="lightbox" id="lightbox" aria-label="Foto baxışı">
+      <button class="lightbox-control lightbox-close" type="button" id="lightbox-close" aria-label="Bağla">×</button>
+      <button class="lightbox-control lightbox-prev" type="button" id="lightbox-prev" aria-label="Əvvəlki foto">‹</button>
+      <figure class="lightbox-figure">
+        <img id="lightbox-image" src="" alt="" />
+      </figure>
+      <button class="lightbox-control lightbox-next" type="button" id="lightbox-next" aria-label="Növbəti foto">›</button>
+    </dialog>
+
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>
