@@ -217,7 +217,15 @@
       '</g></svg>' +
       '<div class="yf-full" aria-hidden="true"><img alt="" draggable="false"></div>' +
       '<i class="yf-portal"></i>' +
-      '<button class="yf-start" id="yf-start" type="button" aria-label="İntroya başla"><span aria-hidden="true">💗</span></button>';
+      '<button class="yf-start" id="yf-start" type="button" aria-label="İntroya başla">' +
+        '<svg class="yf-start-heart" viewBox="0 0 64 64" aria-hidden="true" focusable="false">' +
+          '<defs><linearGradient id="yf-start-gradient" x1="12" y1="8" x2="54" y2="58" gradientUnits="userSpaceOnUse">' +
+            '<stop stop-color="#e9b6b0"/><stop offset=".52" stop-color="#d48c8c"/><stop offset="1" stop-color="#a96070"/>' +
+          '</linearGradient></defs>' +
+          '<path class="yf-start-heart-fill" d="M32 55.2 9.8 33.8C-2.5 21.8 5.3 5.3 19.1 6.4 25 6.9 29.6 10.6 32 15.2 34.4 10.6 39 6.9 44.9 6.4 58.7 5.3 66.5 21.8 54.2 33.8L32 55.2Z"/>' +
+          '<path class="yf-start-heart-glint" d="M13.5 23.4c.1-5.8 4.3-10 10-10.2M15.4 29.1c.4 1.5 1.4 3 2.8 4.4l8.2 7.9"/>' +
+        '</svg>' +
+      '</button>';
 
     document.body.insertBefore(overlay, document.body.firstChild);
     svg = overlay.querySelector('.yf-scene');
