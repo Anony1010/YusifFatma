@@ -31,23 +31,23 @@
 
   /* ── Vaxt cədvəli (ms) ── */
   var T = {
-    names: 400, namesDur: 1900,
-    spark: 2200,
-    swash: 2250, swashDur: 600,
-    heart: 2700, heartDur: 1500,
-    photo: 4150, photoDur: 1000,
-    namesLight: 4300,
-    glow: 4150,
-    beat: 4600,
-    ring: 4750,
-    petals: 4850,
-    photoB: 5300, photoBDur: 800,
-    portal: 5800, portalDur: 1300,
-    photoC: 6000, photoCDur: 700,
-    portalGlow: 6000,
-    full: 6300, fullDur: 700,
-    reveal: 6600, revealDur: 1500,
-    fade: 6700, fadeDur: 1000
+    names: 450, namesDur: 2150,
+    spark: 2350,
+    swash: 2500, swashDur: 700,
+    heart: 3100, heartDur: 1700,
+    photo: 4550, photoDur: 1150,
+    namesLight: 4800,
+    glow: 4500,
+    beat: 5600,
+    ring: 5900,
+    petals: 6000,
+    photoB: 6600, photoBDur: 950,
+    portal: 8700, portalDur: 1400,
+    photoC: 7550, photoCDur: 900,
+    portalGlow: 8800,
+    full: 9200, fullDur: 900,
+    reveal: 10150, revealDur: 1600,
+    fade: 9800, fadeDur: 1100
   };
   var EASE_OUT = 'cubic-bezier(.16,.84,.3,1)';
   var EASE_IO  = 'cubic-bezier(.45,.02,.2,1)';
@@ -556,7 +556,7 @@
     A(glow, [{ opacity: .72 }, { opacity: 1 }], { delay: T.glow, duration: 900, easing: 'ease-in-out', fill: 'forwards' });
     A(light, [
       { opacity: 0, transform: 'translateX(-18%)' }, { opacity: .8, offset: .3 }, { opacity: .6, offset: .7 }, { opacity: 0, transform: 'translateX(14%)' }
-    ], { delay: 200, duration: 6000, easing: 'ease-in-out' });
+    ], { delay: 200, duration: 6500, easing: 'ease-in-out' });
     buildFloats();
 
     /* 3: birləşmə qığılcımı → iz → ürək */
@@ -568,7 +568,9 @@
     /* 4: foto "açılır" (polaroid kimi), parıltı, ürək döyüntüsü, halqa */
     if (heroImgs.length) {
       var kb = function (im, at) {
-        A(im, [{ transform: 'scale(1)' }, { transform: 'scale(1.09)' }], { delay: at, duration: 3600, easing: 'linear', fill: 'forwards' });
+        A(im, [{ transform: 'scale(1)' }, { transform: 'scale(1.075)' }], {
+          delay: at, duration: Math.max(2000, T.portal - at + 900), easing: 'linear', fill: 'forwards'
+        });
       };
       A(heroImgs[0], [
         { opacity: 0, filter: 'blur(14px) saturate(.25) brightness(1.35)' },
@@ -592,9 +594,9 @@
       { transform: 'scale(1.028)', offset: .54 },
       { transform: 'scale(1)', offset: .85 },
       { transform: 'scale(1)' }
-    ], { delay: T.beat, duration: 950, easing: 'ease-in-out' });
+    ], { delay: T.beat, duration: 1200, easing: 'ease-in-out' });
 
-    [[0, 1.8, .75, 1700], [260, 3.4, .35, 2000]].forEach(function (r) {
+    [[0, 1.8, .7, 1900], [320, 3.1, .3, 2200]].forEach(function (r) {
       var c = el('circle', { cx: CX, cy: CY, r: 300, fill: 'none', stroke: 'url(#yf-g-stroke)', 'stroke-width': r[1], opacity: 0 }, rings);
       c.style.transformOrigin = CX + 'px ' + CY + 'px';
       A(c, [{ transform: 'scale(.9)', opacity: 0 }, { opacity: r[2], offset: .18 }, { transform: 'scale(2.1)', opacity: 0 }],
@@ -626,10 +628,10 @@
     if (heroImgs[0]) { heroImgs[0].setAttribute('opacity', 1); q('.yf-scrim').setAttribute('opacity', 1); }
     overlay.querySelector('.yf-glow').style.opacity = 1;
     anims.push(overlay.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 500, fill: 'both' }));
-    var out = overlay.animate([{ opacity: 1 }, { opacity: 0 }], { delay: 2100, duration: 700, fill: 'both' });
+    var out = overlay.animate([{ opacity: 1 }, { opacity: 0 }], { delay: 2600, duration: 800, fill: 'both' });
     anims.push(out);
     out.finished.then(function () { if (!ending) { ending = true; cleanup(); } }, function () {});
-    setTimeout(function () { if (!ending) reveal(false); }, 2300);
+    setTimeout(function () { if (!ending) reveal(false); }, 2900);
   }
 
   /* ── Başlanğıc ── */
