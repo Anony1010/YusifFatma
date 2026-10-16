@@ -28,7 +28,7 @@
 
   var root = document.documentElement;
   var introWasSeen = false;
-  try { introWasSeen = localStorage.getItem('yf-intro-seen') === '1'; } catch (e) {
+  try { introWasSeen = localStorage.getItem('yf-cinematic-intro-v2-seen') === '1'; } catch (e) {
     try { introWasSeen = sessionStorage.getItem('yf-intro') === '1'; } catch (_) {}
   }
   if (CFG.once && introWasSeen) return;
@@ -144,7 +144,7 @@
     root.classList.remove('yf-intro-on');
     clearTimeout(failsafe);
     if (CFG.once) {
-      try { localStorage.setItem('yf-intro-seen', '1'); } catch (e) {
+      try { localStorage.setItem('yf-cinematic-intro-v2-seen', '1'); } catch (e) {
         try { sessionStorage.setItem('yf-intro', '1'); } catch (_) {}
       }
     }
