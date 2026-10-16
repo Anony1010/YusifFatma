@@ -87,7 +87,7 @@
   function loaded(s) { return store[s] && store[s].ok; }
 
   var overlay, svg, canvas, ctx, anims = [], rafId = 0, t0 = 0;
-  var revealed = false, ending = false, failsafe;
+  var revealed = false, ending = false, started = false, failsafe;
   var swashNodes = [], heartNodes = [], headL, headR, pathHL, pathHR, pathSL, pathSR;
   var particles = [], bokeh = [], W = 0, H = 0, dpr = 1, lastTs = 0;
   var heroImgs = [], heroUsed = [];
@@ -133,29 +133,31 @@
     anims = [];
     if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
     window.removeEventListener('resize', resize);
-    document.removeEventListener('keydown', onKey);
     root.classList.remove('yf-intro-on');
     clearTimeout(failsafe);
   }
 
-  function skip() {
-    if (ending) return;
-    ending = true;
-    var o = overlay ? parseFloat(getComputedStyle(overlay).opacity) : 1;
-    anims.forEach(function (a) { try { a.cancel(); } catch (e) {} });
-    anims = [];
-    cancelAnimationFrame(rafId);
-    reveal(true);
-    if (!overlay || !overlay.animate) { cleanup(); return; }
-    overlay.style.pointerEvents = 'none';
-    overlay.animate([{ opacity: isNaN(o) ? 1 : o }, { opacity: 0 }], { duration: 650, easing: 'ease', fill: 'forwards' })
-      .finished.then(cleanup, cleanup);
-  }
-  function onKey(e) {
-    if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
-      if (e.target && e.target.id === 'yf-skip' && e.key !== 'Escape') return;
-      skip();
+  function beginIntro() {
+    if (started || ending) return;
+    started = true;
+    overlay.classList.add('yf-playing');
+    if (!overlay.animate) {
+      ending = true;
+      reveal(true);
+      cleanup();
+      return;
     }
+    failsafe = setTimeout(function () {
+      if (!ending) { ending = true; reveal(true); cleanup(); }
+    }, 18000);
+
+    Promise.all([loadFont(), photosReady, delay(460)]).then(function () {
+      if (ending) return;
+      buildHero();
+      buildNames();
+      buildPetals();
+      reduce ? (buildFloats(), playReduced()) : play();
+    });
   }
 
   /* ── Şrift ── */
@@ -215,16 +217,13 @@
       '</g></svg>' +
       '<div class="yf-full" aria-hidden="true"><img alt="" draggable="false"></div>' +
       '<i class="yf-portal"></i>' +
-      '<button class="yf-skip" id="yf-skip" type="button" aria-label="Girişi keç">Keç</button>';
+      '<button class="yf-start" id="yf-start" type="button" aria-label="İntroya başla"><span aria-hidden="true">💗</span></button>';
 
     document.body.insertBefore(overlay, document.body.firstChild);
     svg = overlay.querySelector('.yf-scene');
     var main = document.querySelector('main');
     if (main) main.setAttribute('inert', '');
-    var skipButton = overlay.querySelector('#yf-skip');
-    skipButton.addEventListener('click', skip);
-    skipButton.focus();
-    document.addEventListener('keydown', onKey);
+    overlay.querySelector('#yf-start').addEventListener('click', beginIntro);
 
     /* Ürək qatları: parıltı (enli, şəffaf) → nüvə */
     var heart = svg.querySelector('.yf-heart');
@@ -629,15 +628,6 @@
   function start() {
     try {
       build();
-      failsafe = setTimeout(function () { if (!ending) { ending = true; reveal(true); cleanup(); } }, 18000);
-      if (!overlay.animate) { ending = true; reveal(true); cleanup(); return; }
-      Promise.all([loadFont(), photosReady]).then(function () {
-        if (ending) return;
-        buildHero();       /* fotolar, adlar və ləçəklər hazır olandan sonra qurulur — animasiya saatı indi başlayır */
-        buildNames();
-        buildPetals();
-        reduce ? (buildFloats(), playReduced()) : play();
-      });
     } catch (err) {
       ending = true; reveal(true); cleanup();
       if (window.console) console.error('[intro]', err);
