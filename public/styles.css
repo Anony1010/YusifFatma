@@ -29,44 +29,6 @@ body.lock { overflow: hidden; }
 button { font: inherit; -webkit-tap-highlight-color: transparent; }
 img { -webkit-user-drag: none; }
 
-/* A one-time, quiet opening for the couple's names. */
-.intro { display: none; }
-.intro-pending body { overflow: hidden; }
-.intro-pending .intro {
-  position: fixed;
-  inset: 0;
-  z-index: 20;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  background:
-    radial-gradient(ellipse at 50% 47%, rgba(255,255,255,.92), rgba(250,247,242,.75) 46%, rgba(239,220,218,.96)),
-    var(--ivory);
-  animation: intro-exit .9s var(--ease) 3.55s forwards;
-  pointer-events: auto;
-}
-.intro::before, .intro::after { content: ""; position: absolute; border: 1px solid rgba(200,168,120,.27); border-radius: 50%; }
-.intro::before { width: min(75vw, 520px); aspect-ratio: 1; animation: ring-in 1.6s ease-out .2s both; }
-.intro::after { width: min(61vw, 420px); aspect-ratio: 1; border-color: rgba(184,115,126,.16); animation: ring-in 1.8s ease-out .35s both; }
-.intro-halo { position: absolute; width: min(42vw, 280px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(201,145,150,.24), rgba(201,145,150,.08) 48%, transparent 72%); animation: halo 2.8s ease-in-out .2s both; }
-.intro-lockup { position: relative; display: flex; align-items: center; justify-content: center; gap: clamp(8px, 2vw, 26px); min-height: 110px; color: var(--burgundy); white-space: nowrap; }
-.intro-name { font-size: clamp(2.45rem, 8vw, 5.4rem); font-weight: 400; letter-spacing: -.055em; }
-.intro-name-left { animation: name-left 1.2s var(--ease) .18s both, name-away .4s ease-in 1.7s forwards; }
-.intro-name-right { animation: name-right 1.2s var(--ease) .18s both, name-away .4s ease-in 1.7s forwards; }
-.intro-join { color: var(--champagne); font-size: clamp(1.1rem, 3vw, 1.8rem); font-style: italic; opacity: .85; animation: join-in .7s ease .65s both, name-away .3s ease-in 1.7s forwards; }
-.intro-heart { position: absolute; left: 50%; top: 50%; width: clamp(62px, 12vw, 88px); overflow: visible; fill: var(--rose-deep); filter: drop-shadow(0 8px 18px rgba(141,78,95,.28)); opacity: 0; transform: translate(-50%, -45%) scale(.24); transform-origin: center; animation: heart-arrive .85s var(--ease) 1.92s forwards, heart-beat 1.1s ease-in-out 2.8s 1; }
-.intro-caption { position: absolute; left: 0; right: 0; top: calc(50% + clamp(82px, 14vw, 112px)); color: var(--muted); font: 500 10px/1.4 Arial, sans-serif; letter-spacing: .27em; text-align: center; text-transform: uppercase; opacity: 0; animation: caption-in .8s ease 2.45s forwards; }
-@keyframes name-left { from { opacity: 0; transform: translateX(-42vw); } to { opacity: 1; transform: translateX(0); } }
-@keyframes name-right { from { opacity: 0; transform: translateX(42vw); } to { opacity: 1; transform: translateX(0); } }
-@keyframes join-in { from { opacity: 0; transform: scale(.6); } to { opacity: .85; transform: scale(1); } }
-@keyframes name-away { to { opacity: 0; transform: scale(.82); filter: blur(3px); } }
-@keyframes heart-arrive { 0% { opacity: 0; transform: translate(-50%,-45%) scale(.24); } 70% { opacity: 1; transform: translate(-50%,-45%) scale(1.12); } 100% { opacity: 1; transform: translate(-50%,-45%) scale(1); } }
-@keyframes heart-beat { 0%,100% { scale: 1; } 35% { scale: 1.09; } 65% { scale: .98; } }
-@keyframes caption-in { to { opacity: .85; } }
-@keyframes ring-in { from { opacity: 0; transform: scale(.88); } to { opacity: 1; transform: scale(1); } }
-@keyframes halo { 0% { opacity: 0; transform: scale(.7); } 55%,100% { opacity: 1; transform: scale(1); } }
-@keyframes intro-exit { 0% { opacity: 1; transform: scale(1); } 45% { opacity: 1; } 100% { opacity: 0; transform: scale(1.045); visibility: hidden; } }
-
 /* Cover */
 .cover { position: relative; display: grid; place-items: center; width: 100%; height: 100svh; min-height: 480px; overflow: hidden; background: var(--burgundy); isolation: isolate; }
 .cover-bg { position: absolute; inset: -40px; z-index: -1; background-size: cover; background-position: center; filter: blur(34px) saturate(.72) brightness(.54); transform: scale(1.1); }
@@ -129,10 +91,9 @@ img { -webkit-user-drag: none; }
 
 @media (max-width: 1100px) { .grid { columns: 3; } }
 @media (max-width: 720px) { .grid { columns: 2; column-gap: 12px; } .gallery { padding-inline: clamp(12px, 3vw, 24px); } .close { top: calc(12px + env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); width: 42px; height: 42px; } .dock { bottom: calc(14px + env(safe-area-inset-bottom)); } .dock .ctrl { width: 42px; height: 42px; } .count { min-width: 96px; gap: 8px; } .count b { font-size: 20px; } .cue { width: 46px; height: 46px; } .cover::after { inset: 8px; } }
-@media (max-width: 380px) { .intro-name { font-size: 2.2rem; } .grid { column-gap: 9px; } .card { margin-bottom: 9px; } }
+@media (max-width: 380px) { .grid { column-gap: 9px; } .card { margin-bottom: 9px; } }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
-  .intro-pending .intro { display: none; }
   .card { opacity: 1; transform: none; }
 }
