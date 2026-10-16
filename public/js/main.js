@@ -184,7 +184,7 @@
       if (desktopReveal) {
         var hiddenClip = forward ? 'inset(0 100% 0 0)' : 'inset(0 0 0 100%)';
         var drift = forward ? 24 : -24;
-        var desktopOpts = { duration: 920, easing: 'cubic-bezier(.22,.75,.18,1)', fill: 'both' };
+        var desktopOpts = { duration: 1750, easing: 'cubic-bezier(.28,.02,.22,1)', fill: 'both' };
         anims = [
           leaf.animate([
             { clipPath: hiddenClip, transform: 'scale(1.035) translateX(' + drift + 'px)' },
