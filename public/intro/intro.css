@@ -2,7 +2,7 @@
 
 /* Giriş gedərkən sayt gizlədilir, scroll bağlanır (JS bu sinfi əlavə edir; JS yoxdursa sayt normal görünür) */
 html.yf-intro-on { overflow: hidden; }
-html.yf-intro-on main { opacity: 0; }
+html.yf-intro-on main { visibility: hidden; opacity: 0; }
 
 #yf-intro {
   position: fixed;

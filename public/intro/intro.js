@@ -29,7 +29,7 @@
   var root = document.documentElement;
   var introWasSeen = false;
   try { introWasSeen = localStorage.getItem('yf-cinematic-intro-v2-seen') === '1'; } catch (e) {
-    try { introWasSeen = sessionStorage.getItem('yf-intro') === '1'; } catch (_) {}
+    try { introWasSeen = sessionStorage.getItem('yf-cinematic-intro-v2-seen') === '1'; } catch (_) {}
   }
   if (CFG.once && introWasSeen) return;
 
@@ -145,7 +145,7 @@
     clearTimeout(failsafe);
     if (CFG.once) {
       try { localStorage.setItem('yf-cinematic-intro-v2-seen', '1'); } catch (e) {
-        try { sessionStorage.setItem('yf-intro', '1'); } catch (_) {}
+        try { sessionStorage.setItem('yf-cinematic-intro-v2-seen', '1'); } catch (_) {}
       }
     }
   }
