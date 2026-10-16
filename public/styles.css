@@ -76,6 +76,9 @@ img { -webkit-user-drag: none; }
 .leaf-shade, .under-shade { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
 .leaf-shade { background: linear-gradient(90deg, transparent, rgba(0,0,0,.7)); }
 .under-shade { background: linear-gradient(90deg, rgba(0,0,0,.75), transparent 70%); }
+.viewer.desktop-turn .leaf { transform-origin: center; box-shadow: none; }
+.viewer.desktop-turn .leaf-shade { background: linear-gradient(90deg, transparent 34%, rgba(255,248,231,.08) 44%, rgba(245,211,160,.5) 50%, rgba(255,248,231,.1) 56%, transparent 66%); background-size: 240% 100%; background-repeat: no-repeat; mix-blend-mode: screen; }
+.viewer.desktop-turn .under-shade { background: radial-gradient(ellipse at center, transparent 56%, rgba(19,10,14,.32) 100%); }
 .ctrl { display: grid; width: 48px; height: 48px; padding: 0; place-items: center; border: 1px solid rgba(255,249,239,.25); border-radius: 50%; background: rgba(51,28,39,.56); backdrop-filter: blur(14px) saturate(150%); color: #fff9ef; cursor: pointer; box-shadow: 0 8px 24px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.14); transition: background .25s ease, border-color .25s ease, color .25s ease, scale .25s var(--ease); }
 .ctrl:hover { background: rgba(234,217,188,.95); border-color: transparent; color: var(--burgundy); scale: 1.06; }
 .ctrl:active { scale: .94; }

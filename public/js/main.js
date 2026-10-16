@@ -96,6 +96,7 @@
   /* ═════════ Tam ekran baxış + kitab səhifəsi çevirmə ═════════ */
   var viewer = document.getElementById('viewer');
   var stage = document.getElementById('stage');
+  var under = document.getElementById('under');
   var underImg = document.getElementById('under-img');
   var leaf = document.getElementById('leaf');
   var leafImg = document.getElementById('leaf-img');
@@ -112,6 +113,11 @@
   var DURATION = 1000;
   var EASE = 'cubic-bezier(.65,.02,.3,1)';
   var mod = function (n) { return (n + photos.length) % photos.length; };
+
+  function desktopRevealAvailable() {
+    return !reduceMotion && window.matchMedia('(min-width: 900px) and (pointer: fine)').matches &&
+      window.CSS && CSS.supports && CSS.supports('clip-path', 'inset(0 100% 0 0)');
+  }
 
   function preload(i) {
     var im = new Image();
@@ -130,6 +136,7 @@
 
   function setPerspective() {
     stage.style.perspective = Math.max(window.innerWidth * 1.7, 1200) + 'px';
+    viewer.classList.toggle('desktop-turn', desktopRevealAvailable());
   }
 
   function openViewer(i) {
@@ -162,16 +169,42 @@
         index = target; setStatic(index); busy = false; warmNeighbours(); return;
       }
 
-      if (forward) { underImg.src = url(target); leafImg.src = url(index); }
-      else         { leafImg.src = url(target); underImg.src = url(index); }
+      var desktopReveal = desktopRevealAvailable();
+      if (desktopReveal) {
+        underImg.src = url(index);
+        leafImg.src = url(target);
+      } else if (forward) {
+        underImg.src = url(target); leafImg.src = url(index);
+      } else {
+        leafImg.src = url(target); underImg.src = url(index);
+      }
 
       leaf.style.display = 'block';
-      var opts = { duration: DURATION, easing: EASE, fill: 'both', direction: forward ? 'normal' : 'reverse' };
-      var anims = [
-        leaf.animate([{ transform: 'rotateY(0deg)' }, { transform: 'rotateY(-180deg)' }], opts),
-        leafShade.animate([{ opacity: 0 }, { opacity: 1, offset: .55 }, { opacity: 1 }], opts),
-        underShade.animate([{ opacity: 1 }, { opacity: .55, offset: .5 }, { opacity: 0 }], opts)
-      ];
+      var anims;
+      if (desktopReveal) {
+        var hiddenClip = forward ? 'inset(0 100% 0 0)' : 'inset(0 0 0 100%)';
+        var drift = forward ? 24 : -24;
+        var desktopOpts = { duration: 920, easing: 'cubic-bezier(.22,.75,.18,1)', fill: 'both' };
+        anims = [
+          leaf.animate([
+            { clipPath: hiddenClip, transform: 'scale(1.035) translateX(' + drift + 'px)' },
+            { clipPath: 'inset(0 0 0 0)', transform: 'scale(1) translateX(0)' }
+          ], desktopOpts),
+          leafShade.animate([
+            { opacity: 0, backgroundPosition: forward ? '-90% 0' : '190% 0' },
+            { opacity: .8, backgroundPosition: '50% 0', offset: .55 },
+            { opacity: 0, backgroundPosition: forward ? '190% 0' : '-90% 0' }
+          ], desktopOpts),
+          underShade.animate([{ opacity: 0 }, { opacity: .2, offset: .42 }, { opacity: 0 }], desktopOpts)
+        ];
+      } else {
+        var opts = { duration: DURATION, easing: EASE, fill: 'both', direction: forward ? 'normal' : 'reverse' };
+        anims = [
+          leaf.animate([{ transform: 'rotateY(0deg)' }, { transform: 'rotateY(-180deg)' }], opts),
+          leafShade.animate([{ opacity: 0 }, { opacity: 1, offset: .55 }, { opacity: 1 }], opts),
+          underShade.animate([{ opacity: 1 }, { opacity: .55, offset: .5 }, { opacity: 0 }], opts)
+        ];
+      }
 
       return anims[0].finished.then(function () {
         index = target;
