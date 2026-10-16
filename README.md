@@ -1,6 +1,6 @@
 # Yusif & Fatma — Foto kataloqu
 
-Yusif və Fatma üçün Azərbaycan dilində hazırlanmış, responsiv foto qalereyası. İsti ivory, blush, muted rose və champagne tonları, ilk ziyarətdə göstərilən zərif ad/ürək açılışı və tam ekran foto baxışı ilə.
+Yusif və Fatma üçün Azərbaycan dilində hazırlanmış, responsiv foto qalereyası. İsti ivory, blush, muted rose və champagne tonları, hər səhifə girişində göstərilən zərif ad/ürək açılışı və tam ekran foto baxışı ilə.
 
 ## Fayllar
 
@@ -15,4 +15,4 @@ Yusif və Fatma üçün Azərbaycan dilində hazırlanmış, responsiv foto qale
 - `public/photos/` — optimallaşdırılmış WebP fotoşəkillər.
 - `scripts/prepare_gallery.py` — ZIP arxivindən WebP şəkillər və kataloq məlumatı hazırlayır.
 
-Sayt statik fayllardan ibarətdir; poster və musiqi də layihənin içində olduğuna görə ZIP müstəqil işləyir. Kinematik açılış ilk ziyarətdə bir dəfə göstərilir; `prefers-reduced-motion` aktivdirsə sakit statik variant işləyir. Xəttatlıq şrifti Google Fonts-dan yüklənir, bağlantı olmadıqda sistem şriftlərinə keçir. Musiqi brauzerin autoplay qaydalarına uyğun olaraq ilk toxunuşda və ya klaviatura qarşılıqlı əlaqəsində səslənir.
+Sayt statik fayllardan ibarətdir; poster və musiqi də layihənin içində olduğuna görə ZIP müstəqil işləyir. Kinematik açılış hər səhifə girişində göstərilir; əsas məzmun intro bitənə qədər gizli qalır. `prefers-reduced-motion` aktivdirsə sakit statik variant işləyir. Xəttatlıq şrifti Google Fonts-dan yüklənir, bağlantı olmadıqda sistem şriftlərinə keçir. Musiqi brauzerin autoplay qaydalarına uyğun olaraq ilk toxunuşda və ya klaviatura qarşılıqlı əlaqəsində səslənir.

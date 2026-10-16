@@ -1,14 +1,13 @@
 /*!
  * Yusif & Fatma — kinematik giriş v2 (fotolarla)
  * Web Animations API + SVG + Canvas (kitabxana yoxdur, video deyil).
- * <head>-də sinxron yüklənməlidir:  <script src="intro/intro.js"></script>
+ * <body>-nin əvvəlində sinxron yüklənməlidir ki, sayt məzmunundan öncə başlasın.
  * Fotolar saytın öz "photos/2/..." qovluğundan götürülür (yollar səhifəyə nisbətən).
  */
 (function () {
   'use strict';
 
   var CFG = {
-    once: true,    // ilk nümayişdən sonra bu brauzerdə yenidən göstərmə
     fontUrl: 'https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap',
     fontTimeout: 1800,
     photoTimeout: 2600,
@@ -27,12 +26,6 @@
   };
 
   var root = document.documentElement;
-  var introWasSeen = false;
-  try { introWasSeen = localStorage.getItem('yf-cinematic-intro-v2-seen') === '1'; } catch (e) {
-    try { introWasSeen = sessionStorage.getItem('yf-cinematic-intro-v2-seen') === '1'; } catch (_) {}
-  }
-  if (CFG.once && introWasSeen) return;
-
   var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   root.classList.add('yf-intro-on');
 
@@ -143,11 +136,6 @@
     document.removeEventListener('keydown', onKey);
     root.classList.remove('yf-intro-on');
     clearTimeout(failsafe);
-    if (CFG.once) {
-      try { localStorage.setItem('yf-cinematic-intro-v2-seen', '1'); } catch (e) {
-        try { sessionStorage.setItem('yf-cinematic-intro-v2-seen', '1'); } catch (_) {}
-      }
-    }
   }
 
   function skip() {
@@ -656,6 +644,5 @@
     }
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
-  else start();
+  start();
 })();
