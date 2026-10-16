@@ -3,19 +3,50 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#04303a" />
-    <meta name="description" content="Yusif və Fatma — foto kataloqu." />
+    <meta name="theme-color" content="#f7f1ea" />
+    <meta name="description" content="Yusif və Fatmanın sevgi hekayəsi — birlikdə topladığımız xatirələr." />
     <meta property="og:title" content="Yusif &amp; Fatma" />
     <meta property="og:description" content="Yusif və Fatma — foto kataloqu." />
     <meta property="og:image" content="images/cover.png" />
     <title>Yusif &amp; Fatma</title>
     <link rel="icon" type="image/svg+xml" href="mark.svg" />
     <link rel="stylesheet" href="styles.css" />
+    <script>
+      try {
+        if (!localStorage.getItem('yf-intro-seen') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.documentElement.classList.add('intro-pending');
+          window.__yfIntroFallback = setTimeout(function () {
+            document.documentElement.classList.remove('intro-pending');
+            var site = document.querySelector('main');
+            if (site) { site.inert = false; site.removeAttribute('aria-hidden'); }
+          }, 6500);
+        }
+      } catch (_) {}
+    </script>
   </head>
   <body>
     <audio id="bgm" src="audio/incebellim.mp3" preload="auto" loop hidden aria-hidden="true"></audio>
 
+    <div class="intro" id="intro" aria-hidden="true">
+      <div class="intro-halo" aria-hidden="true"></div>
+      <div class="intro-lockup">
+        <span class="intro-name intro-name-left">Yusif</span>
+        <span class="intro-join" aria-hidden="true">&amp;</span>
+        <span class="intro-name intro-name-right">Fatma</span>
+        <svg class="intro-heart" viewBox="0 0 100 92" aria-hidden="true">
+          <path d="M50 84 12.8 47.7C-8.5 24.2 13.6-1.2 34.8 13.2 42 18.1 47 25.3 50 30c3-4.7 8-11.9 15.2-16.8C86.4-1.2 108.5 24.2 87.2 47.7L50 84Z" />
+        </svg>
+      </div>
+      <span class="intro-caption">birlikdə, həmişə</span>
+    </div>
+
     <main>
+      <script>
+        if (document.documentElement.classList.contains('intro-pending')) {
+          document.currentScript.parentElement.inert = true;
+          document.currentScript.parentElement.setAttribute('aria-hidden', 'true');
+        }
+      </script>
       <section class="cover" aria-label="Yusif və Fatma">
         <div class="cover-bg" style="background-image:url('images/cover.png')" aria-hidden="true"></div>
         <img class="cover-image" src="images/cover.png" alt="Yusif və Fatma — Foto Kataloqu" width="1024" height="1536" fetchpriority="high" />
@@ -25,7 +56,12 @@
       </section>
 
       <section class="gallery" id="photos" aria-label="Foto kataloqu">
-        <div class="ornament" aria-hidden="true"><img src="mark.svg" alt="" width="56" height="56" /></div>
+        <header class="gallery-heading">
+          <p class="eyebrow">Birlikdə yazılan hekayə</p>
+          <h1>Yusif <span>&amp;</span> Fatma</h1>
+          <p class="gallery-intro">Ən gözəl anlarımızdan kiçik bir kolleksiya</p>
+          <div class="ornament" aria-hidden="true"><img src="mark.svg" alt="" width="48" height="48" /></div>
+        </header>
         <div class="grid" id="grid" aria-busy="true"></div>
         <div class="ornament end" aria-hidden="true"><img src="mark.svg" alt="" width="40" height="40" /></div>
       </section>

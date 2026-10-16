@@ -1,6 +1,27 @@
 (function () {
   'use strict';
 
+  /* Play the name-and-heart opening once, and skip it for reduced-motion users. */
+  var intro = document.getElementById('intro');
+  var site = document.querySelector('main');
+  var introTimer = 0;
+  function finishIntro() {
+    if (!document.documentElement.classList.contains('intro-pending')) return;
+    clearTimeout(introTimer);
+    clearTimeout(window.__yfIntroFallback);
+    document.documentElement.classList.remove('intro-pending');
+    if (site) { site.inert = false; site.removeAttribute('aria-hidden'); }
+    if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
+  }
+  if (document.documentElement.classList.contains('intro-pending') && intro) {
+    try { localStorage.setItem('yf-intro-seen', '1'); } catch (_) {}
+    if (site) { site.inert = true; site.setAttribute('aria-hidden', 'true'); }
+    intro.addEventListener('animationend', function (event) {
+      if (event.target === intro && event.animationName === 'intro-exit') finishIntro();
+    });
+    introTimer = window.setTimeout(finishIntro, 5200);
+  }
+
   /* ═════════ Fon musiqisi: ilk toxunuşda avtomatik, görünən heç nə yoxdur ═════════ */
   var music = document.getElementById('bgm');
   var TARGET_VOLUME = 0.4;
@@ -48,7 +69,7 @@
   var url = function (i) { return encodeURI(photos[i].s); };
 
   document.getElementById('cue').addEventListener('click', function () {
-    document.getElementById('photos').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('photos').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
   });
 
   if (!photos.length) {
